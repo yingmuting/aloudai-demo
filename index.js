@@ -24,4 +24,4 @@ server.on("request", function (req, res) {
 })
 
 server.timeout = 5000;//5秒响应时间
-server.listen(8080, 'localhost');
+server.listen(8080);
