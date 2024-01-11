@@ -11,16 +11,27 @@ server.on("listening", function () {
 
 //服务器接收到请求时
 server.on("request", function (req, res) {
-    //发送响应头请求（状态码，状态信息，响应头对象）
-    res.writeHead(200, "OK", {
-        'Content-Type': 'text/html'//将数据作为html对象进行编码
-    });
+    if(req.url === "/"){
+        fs.readFile("./index.html", "utf8", function(err, data){
+            if (err) throw err;
+            res.writeHead(200, {"Content-Type": "text/html"});
+            res.end(data);
+        });
+    }else if(req.url.match(".css$")){
+        var cssPath = path.join(__dirname, req.url);
+        var fileStream = fs.createReadStream(cssPath, "UTF-8");
+        res.writeHead(200, {"Content-Type": "text/css"});
+        fileStream.pipe(res);
+    }else if(req.url.match(".png$")){
+        var imagePath = path.join(__dirname, req.url);
+        var fileStream = fs.createReadStream(imagePath);
+        res.writeHead(200, {"Content-Type": "image/png"});
+        fileStream.pipe(res);
+    }else{
+        res.writeHead(404, {"Content-Type": "text/html"});
+        res.end("No Page Found");
+    }
 
-    //读取html文件，并反馈到客户端
-    fs.readFile('./index.html', 'utf8', function (err, data) {
-        if (err) throw err;
-        res.end(data);
-    });
 })
 
 server.timeout = 5000;//5秒响应时间
