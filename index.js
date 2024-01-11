@@ -17,12 +17,12 @@ server.on("request", function (req, res) {
             res.writeHead(200, {"Content-Type": "text/html"});
             res.end(data);
         });
-    }else if(req.url.match(".css$")){
+    }else if(req.url.match("\.css$")){
         var cssPath = path.join(__dirname, req.url);
         var fileStream = fs.createReadStream(cssPath, "UTF-8");
         res.writeHead(200, {"Content-Type": "text/css"});
         fileStream.pipe(res);
-    }else if(req.url.match(".png$")){
+    }else if(req.url.match("\.png$")){
         var imagePath = path.join(__dirname, req.url);
         var fileStream = fs.createReadStream(imagePath);
         res.writeHead(200, {"Content-Type": "image/png"});
