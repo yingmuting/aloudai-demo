@@ -24,7 +24,7 @@ server.on("request", function (req, res) {
 //    });
 
     if(req.url === "/"){
-        fs.readFile("./public/index.html", "UTF-8", function(err, html){
+        fs.readFile("./index.html", "UTF-8", function(err, html){
             if (err) throw err;
             res.writeHead(200, {"Content-Type": "text/html"});
             res.end(html);
